@@ -11,21 +11,22 @@ datasource db {
 }
 
 model User {
-  id             String          @id @default(uuid())
-  name           String
-  age            Int
-  email          String?         @unique
-  role           String          @default("BASIC")
-  writtenPosts   Post[]          @relation("WrittenPosts")
-  favouritePosts Post[]          @relation("FavouritePosts")
-  UserPreference UserPreference?
+  id               String          @id @default(uuid())
+  name             String
+  age              Int
+  email            String?         @unique
+  role             String          @default("BASIC")
+  writtenPosts     Post[]          @relation("WrittenPosts")
+  favouritePosts   Post[]          @relation("FavouritePosts")
+  userPreference   UserPreference? @relation(fields: [userPreferenceId], references: [id])
+  userPreferenceId String?
 }
 
 model UserPreference {
   id           String  @id @default(uuid())
   emailUpdates Boolean
-  user         User    @relation(fields: [userId], references: [id])
-  userId       String  @unique
+  userId       String?
+  User         User[]
 }
 
 model Post {
